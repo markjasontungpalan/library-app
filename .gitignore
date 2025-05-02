@@ -1,0 +1,32 @@
+# === Client (React) ===
+client/node_modules/        # React dependencies folder
+client/dist/                # Vite build output (optional if you run vite build)
+client/.env                 # Environment variables (API keys, secrets)
+client/.DS_Store            # macOS system file (safe to ignore)
+
+# === Server (Express) ===
+server/node_modules/        # Express dependencies folder
+server/.env                 # Environment variables (DB URIs, secrets)
+server/.DS_Store            # macOS system file (safe to ignore)
+
+# === Logs ===
+*.log                      # General log files
+npm-debug.log*             # npm debug logs
+yarn-debug.log*            # yarn debug logs
+yarn-error.log*            # yarn error logs
+
+# === OS files ===
+.DS_Store                 # macOS system file
+Thumbs.db                # Windows system file
+
+# === Future tools / coverage ===
+coverage/                # Test coverage reports (Jest, Cypress)
+cypress/videos/         # Cypress test videos
+cypress/screenshots/    # Cypress screenshots
+
+# === Future server builds ===
+server/build/           # If you build server for deployment (optional)
+
+# === IDE settings ===
+.vscode/               # Visual Studio Code settings
+.idea/                 # JetBrains / WebStorm settings
