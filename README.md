@@ -1,152 +1,94 @@
-# 📚 Library App — Full Stack Setup (React + Express + MongoDB)
+📦 Server Setup Instructions
+✅ 1. Create the server folder
 
-This guide will help you set up the folder structure, React frontend, Express backend, and MongoDB connection for the Library App.
+  mkdir server
+  cd server
 
----
+✅ 2. Initialize a package.json file
 
-## 📦 Folder Structure
+  npm init -y
 
-    library-app/
-    ├── client/ → React + Vite frontend
-    ├── server/ → Express backend + MongoDB
+✅ 3. Install Express and add it as a dependency
 
+  npm i express
 
----
+✅ 4. Install Nodemon as a development dependency
 
-## 🚀 Setup Instructions
+  npm i --save-dev nodemon
 
-### ✅ 1. Create project folder
+  ✅ What does this do?
+  Nodemon automatically restarts the server when file changes are detected.
 
-```bash
-mkdir library-app
-cd library-app
+  --save-dev marks it as a development-only tool in package.json.
 
-✅ 2. Set up React + Vite frontend
+✅ 5. Modify package.json scripts
+  In package.json, update the scripts section:
 
-npm create vite@latest client -- --template react               
-    # creates required folders and package.json
-cd client
-npm install
-    # install React dependencies
-Set proxy in client/vite.config.js:
+  "scripts": {
+    "devStart": "nodemon server.js"
+  }
 
-    import { defineConfig } from 'vite';
-    import react from '@vitejs/plugin-react';
+  ✅ What does this do?
+  Adds a custom script called devStart to run:
+  nodemon server.js
 
-    export default defineConfig({
-    plugins: [react()],
-    server: {
-        proxy: {
-        '/api': 'http://localhost:5000'                         // allows React to hook into backend
-        }
-    }
-    });
+  You can now run it easily with:
+  npm run devStart
 
+✅ 6. Run the devStart script in the terminal
 
-✅ 3. Set up Express backend
+  npm run devStart
 
-mkdir server
-cd server
-npm init -y                 
-    # creates package.json
-npm install express mongoose cors                   
-    # express → the web framework to build the backend server and API routes.
-    # mongoose → connects to MongoDB + defines models and schemas.
-    # cors → middleware that allows the React frontend (running on another port) to communicate with the Express backend.
-npm install --save-dev nodemon
-    # --save-dev → Marks it as a development-only tool, not needed in production.
-    # nodemon →  automatically restarts your server when you make code changes.
-Update server/package.json scripts:
+✅ 7. Create the server.js file
 
-    "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
-    }
+  Inside the server directory, create a new file:
+  server.js
 
-✅ 4. Create backend files
+  ✅ Tip:
+  Start with this basic Express code:
 
-touch app.js
-mkdir routes models controllers helpers
-    # create backend folders
+  const express = require('express');
+  const app = express();
+  const PORT = process.env.PORT || 3000;
 
-✅ 5. Example backend app.js
+  app.get('/', (req, res) => {
+    res.send('Hello World');
+  });
 
-    import express from 'express';
-    import cors from 'cors';
+  app.listen(PORT, () => {
+    console.log(`✅ Server running on http://localhost:${PORT}`);
+  });
 
-    const app = express();
-    const PORT = 5000;
+✅ 8. Create "views" directory to store view files (html or hbs)
 
-    app.use(cors());
-    app.use(express.json());
+✅ 9. Create "views" directory to store view files (html or hbs)
 
-    app.get('/api/hello', (req, res) => {
-        res.json({ message: 'Hello from Express!' });
-    });
+  npm i express-handlebars
 
-    app.listen(PORT, () => {
-        console.log(`Server running on http://localhost:${PORT}`);
-    });
-✅ 6. Run backend + frontend
-In /server:
-    npm run dev
+✅ 10. Configure server to use express-handlebars as view engine
 
-In /client:
-    npm run dev
+  import exphbs from "express-handlebars";
 
-✅ 7. Connect React to backend
-In React App.js:
+  app.engine(".hbs", exphbs.engine({ extname: ".hbs" }));
+  <!-- 
+    app.engine(extension, callbackFunction)  
+      extension → the file extension you want to associate (e.g., .hbs, .ejs) 
+      callbackFunction → the function Express should use to render that template
 
-    useEffect(() => {
-        fetch('/api/hello')
-            .then(res => res.json())
-            .then(data => setMessage(data.message));
-    }, []);
+    app.engine('.hbs', ...)
+      “Whenever you see a .hbs file, use this function to render it into HTML.”
+    
+    exphbs.engine()
+      returns a properly configured rendering function for .hbs templates.
+    
+    extname: '.hbs' 
+      “Override the default .handlebars extension and use .hbs instead"
+    
+    defaultLayout:false                                 
+      “Do not use any layout globally.”
+    })                     
+);
+   -->
 
-✅ 8. Set up MongoDB (optional)
-Later, in server/helpers/connectDB.js:
+✅ 11. Create routes directory
 
-    import mongoose from 'mongoose';
-
-    export async function connectDB(uri) {
-        try {
-            await mongoose.connect(uri);
-            console.log('✅ Connected to MongoDB');
-        } catch (err) {
-            console.error('❌ MongoDB connection error:', err);
-            process.exit(1);
-        }
-    }
-
-Call in app.js:
-
-    import { connectDB } from './helpers/connectDB.js';
-    connectDB('mongodb://localhost:27017/librarydb');
-
-# ---------------------------------------
-⚙ Environment Notes
-    React runs on localhost:3000
-    Express runs on localhost:5000
-
-    The frontend uses proxy (/api) to forward API requests to the backend.
-
-📦 Future Setup Notes
-    Add .env files for API keys and DB URIs
-    Add MongoDB connection logic in server/helpers/connectDB.js
-    Use models inside server/models/ for books, users, etc.
-
-📄 Useful Scripts
-In client/package.json:
-
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    }
-
-In server/package.json:
-
-
-    "scripts": {
-        "dev": "nodemon app.js",
-        "start": "node app.js"
-    }
