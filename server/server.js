@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files (optional, if you have public assets)
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to MongoDB
@@ -48,11 +48,12 @@ app.get('/signin', (req, res) => {
     res.render('signin', { title: 'Sign In' });
 });
 
-// Handle POST sign-in (dummy example)
-app.post('/signin', (req, res) => {
-    const { email, password } = req.body;
-    console.log('Received login:', email, password);
-    res.send(`Received login: ${email}`);
+app.get('/register', (req, res) => {
+    res.render('register', { title: 'Register' });
+});
+
+app.get('/dashboard', (req, res) => {
+    res.render('dashboard', { title: 'Dashboard' });
 });
 
 // Start server
