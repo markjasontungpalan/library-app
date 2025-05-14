@@ -9,7 +9,7 @@ export async function createDefaultAdmin() {
         if (!adminExists) {
             const adminUser = new User({
                 name: 'Administrator',
-                username: 'admin@gmail.com',
+                email: 'admin@gmail.com',
                 password: 'admin123',   // Plaintext for now
                 role: 'admin'
             });

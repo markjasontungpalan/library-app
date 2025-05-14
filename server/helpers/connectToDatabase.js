@@ -8,10 +8,7 @@ import { createDefaultAdmin } from './createDefaultAdmin.js';
 
 export async function connectToDatabase(MONGODB_URI) {
     try {
-        await mongoose.connect(MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+        await mongoose.connect(MONGODB_URI);
         console.log('✅ Connected to MongoDB');
 
         await createDefaultAdmin();

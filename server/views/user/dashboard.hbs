@@ -1,0 +1,73 @@
+<main style="padding: 2rem; font-family: sans-serif; position: relative;">
+
+  <!-- Top-right: Welcome + Settings -->
+<div style="
+  position: absolute;
+  top: 1rem;
+  right: 4rem;
+  text-align: right;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #ddd;
+  backdrop-filter: blur(4px);
+">
+  <h2 style="margin: 0 0 0.25rem 0; font-size: 1.6rem; color: #2c3535;">Welcome, {{username}}!</h2>
+  <a href="/user/settings" style="
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #18304f;
+    font-weight: bold;
+  ">
+    ⚙️ User Settings
+  </a>
+</div>
+
+  <!-- Dashboard Content Below -->
+  <section style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: space-between; margin-top: 6rem;">
+
+    <!-- Available Books -->
+    <div style="
+      flex: 1;
+      min-width: 600px;
+      height: 700px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      overflow-y: auto;
+    ">
+      <h3 style="font-size: 1.25rem;">📚 Books Available</h3>
+      <ul style="font-size: 1.1rem;">
+        {{#each availableBooks}}
+          <li>{{this.title}} by {{this.author}}</li>
+        {{else}}
+          <li>No books available.</li>
+        {{/each}}
+      </ul>
+    </div>
+
+    <!-- Loaned Books -->
+    <div style="
+      flex: 1;
+      min-width: 600px;
+      height: 700px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: #f1faff;
+      overflow-y: auto;
+    ">
+      <h3 style="font-size: 1.25rem;">📘 Books You Loaned</h3>
+      <ul style="font-size: 1.1rem;">
+        {{#each loanedBooks}}
+          <li>{{this.title}} (Due: {{this.dueDate}})</li>
+        {{else}}
+          <li>You haven't loaned any books.</li>
+        {{/each}}
+      </ul>
+    </div>
+
+  </section>
+</main>
